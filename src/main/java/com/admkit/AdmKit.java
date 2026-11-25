@@ -218,7 +218,7 @@ public class AdmKit extends JavaPlugin implements Listener {
                 }
             }
             case 49 -> giveAll(p, boxes);
-            case 51 -> Bukkit.getScheduler().runTask(this, p::closeInventory);
+            case 51 -> Bukkit.getScheduler().runTask(this, () -> p.closeInventory());
             case 53 -> Bukkit.getScheduler().runTask(this, () -> openMenu(p, menu.page + 1));
             default -> { }
         }
