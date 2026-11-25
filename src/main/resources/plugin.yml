@@ -1,0 +1,14 @@
+name: AdmKit
+version: 1.0.0
+main: com.admkit.AdmKit
+api-version: '1.21'
+description: Kit admin com shulker boxes pretas cheias de itens OP.
+commands:
+  adm:
+    description: Abre um menu para escolher qual shulker box preta receber (ou todas).
+    usage: /adm [todas]
+    permission: admkit.use
+permissions:
+  admkit.use:
+    description: Permite usar /adm
+    default: op
