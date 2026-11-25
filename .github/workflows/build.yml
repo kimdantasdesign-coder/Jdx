@@ -2,6 +2,8 @@ name: Build
 on:
   push:
   workflow_dispatch:
+permissions:
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,3 +18,9 @@ jobs:
         with:
           name: AdmKit
           path: target/AdmKit.jar
+      - name: Publicar o jar em Releases
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release delete latest --yes --cleanup-tag || true
+          gh release create latest target/AdmKit.jar --title "AdmKit.jar" --notes "Jar compilado automaticamente." --target "${{ github.sha }}"
