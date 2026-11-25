@@ -253,16 +253,20 @@ public class AdmKit extends JavaPlugin implements Listener {
         return new ItemStack(m, 1);
     }
 
-    /** Item inquebrável com os encantamentos pedidos (só os que servem no item). */
-    private static ItemStack gear(String material, String... enchants) {
+    /**
+     * Item inquebrável com TODOS os encantamentos que o item aceita (sem maldições),
+     * incluindo os que conflitam entre si. O parâmetro "ignored" é mantido só por compatibilidade.
+     */
+    private static ItemStack gear(String material, String... ignored) {
         ItemStack it = one(material);
         if (it == null) return null;
         ItemMeta meta = it.getItemMeta();
         meta.setUnbreakable(true);
         it.setItemMeta(meta);
-        for (String k : enchants) {
-            Enchantment e = ench(k);
-            if (e != null && e.canEnchantItem(it)) {
+        for (Enchantment e : Registry.ENCHANTMENT) {
+            String k = e.getKey().getKey();
+            if (k.endsWith("_curse")) continue;
+            if (e.canEnchantItem(it)) {
                 it.addUnsafeEnchantment(e, levelFor(k));
             }
         }
@@ -429,7 +433,6 @@ public class AdmKit extends JavaPlugin implements Listener {
                 gear("NETHERITE_SWORD", "sharpness", "looting", "fire_aspect", "sweeping_edge", "unbreaking", "mending"),
                 gear("NETHERITE_AXE", "sharpness", "efficiency", "unbreaking", "mending"),
                 gear("NETHERITE_PICKAXE", "efficiency", "fortune", "unbreaking", "mending"),
-                gear("NETHERITE_PICKAXE", "efficiency", "silk_touch", "unbreaking", "mending"),
                 gear("NETHERITE_SHOVEL", "efficiency", "fortune", "unbreaking", "mending"),
                 gear("NETHERITE_HOE", "efficiency", "fortune", "unbreaking", "mending"),
                 gear("NETHERITE_SPEAR", "sharpness", "lunge", "fire_aspect", "looting", "unbreaking", "mending"),
@@ -437,7 +440,6 @@ public class AdmKit extends JavaPlugin implements Listener {
                 gear("BOW", "power", "punch", "flame", "infinity", "unbreaking", "mending"),
                 gear("CROSSBOW", "quick_charge", "piercing", "unbreaking", "mending"),
                 gear("TRIDENT", "impaling", "loyalty", "channeling", "unbreaking", "mending"),
-                gear("TRIDENT", "impaling", "riptide", "unbreaking", "mending"),
                 gear("FISHING_ROD", "luck_of_the_sea", "lure", "unbreaking", "mending"),
                 gear("SHEARS", "efficiency", "unbreaking", "mending"),
                 gear("FLINT_AND_STEEL", "unbreaking", "mending"),
